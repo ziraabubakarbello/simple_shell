@@ -13,7 +13,6 @@
 int main(int ac, char **argv)
 {
 	(void)ac;
-	(void)argv;
 	char *command_prompt = "$ ";
 
 	/**
@@ -38,7 +37,7 @@ int main(int ac, char **argv)
 
 	char *lineptr_tokens;
 	int token_count = 0;
-	int i;
+	int position;
 
 	while (1)
 	{
@@ -47,8 +46,16 @@ int main(int ac, char **argv)
 
 		if (nreads == -1)
 		{
-			perror("Error! exiting...");
-			return (1);
+			if (feof(stdin))
+			{
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				perror("read line");
+				exit(EXIT_FAILURE);
+			}
+			return (nreads);
 		}
 		/**dynamically allocating memery for lineptr_copy and validating*/
 		lineptr_copy = malloc(sizeof(char) * nreads);
@@ -75,22 +82,24 @@ int main(int ac, char **argv)
 		if (argv == NULL)
 		{
 			perror("MEmory Allocation Failed\n");
-			return(2);
+			return (2);
 		}
 		lineptr_tokens = strtok(lineptr_copy, DELIMETER);
 
-		/***allocating memory space for each tokenized strings */
+		/***allocating memory space for each tokenized strings base on their size */
 
-		for (i = 0; lineptr_tokens != NULL; i++)
+		for (position = 0; lineptr_tokens != NULL; position++)
 		{
-			argv[i] = malloc(sizeof(char) * strlen(lineptr_tokens));
+			argv[position] = malloc(sizeof(char) * strlen(lineptr_tokens));
 
-			strcpy(argv[i], lineptr_copy);
+			strcpy(argv[position], lineptr_tokens);
 			lineptr_tokens = strtok(NULL, DELIMETER);
 		}
-		argv[i] = NULL;
+		argv[position] = NULL;
 
-		printf("%s\n ", lineptr);
+		execute(argv);
+
+		/**printf("%s\n ", lineptr);*/
 	}
 	free(lineptr);
 	free(lineptr_copy);
