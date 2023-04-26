@@ -1,4 +1,6 @@
 #include "simpleshell.h"
+#include<sys/wait.h>
+#include<unistd.h>
 
 /**
  * execute- read and execute commands
@@ -9,9 +11,14 @@
 
 void execute(char **argv)
 {
+	int status;
+	pid_t child_pid;
 	char *shell_command = NULL;
 	char *executed_command = NULL;
 
+	child_pid = fork();
+	if (child_pid == 0)
+	{
 	if (argv)
 	{
 		/**getting the command*/
@@ -25,5 +32,17 @@ void execute(char **argv)
 		{
 			perror("Error!\n");
 		}
+	}
+	}
+	else if (child_pid > 0)
+	{
+	do
+	{
+		waitpid(child_pid, &status, WUNTRACED);
+	}while(!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
+	else
+	{
+		perror("Error\n");
 	}
 }

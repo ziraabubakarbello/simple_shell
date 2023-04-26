@@ -28,5 +28,4 @@ Builtin commands: cd, exits, ls, errors.
 COLLABORATORS
 ==============
 Akinbowale Kehinde
-Zira Abubakar Bello
- 
+Zira Abubakar Bello 
