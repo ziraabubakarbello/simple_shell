@@ -9,8 +9,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-void execute(char **argv);
+int execute(char **argv);
 int stat(const char *pathname, struct stat *statbuf);
 char *getPath(char *shell_command);
 char *getenv(const char *name);
+int shell_launch(char **argv);
 #endif
