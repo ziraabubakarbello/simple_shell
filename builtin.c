@@ -5,12 +5,12 @@
 int shell_cd(char **argv);
 int shell_help(char **argv);
 int shell_exit(char **argv);
-char *builtin_str[] ={
+char *builtin_str[] = {
 	"cd",
 	"help",
 	"exit"
 };
-int (*builtin_arrayfun[]) (char **) ={
+int (*builtin_arrayfun[]) (char **) = {
 	&shell_cd,
 	&shell_help,
 	&shell_exit
@@ -23,7 +23,7 @@ int (*builtin_arrayfun[]) (char **) ={
 */
 int shell_builtins(void)
 {
-	return sizeof(builtin_str) / sizeof(char *);
+	return (sizeof(builtin_str) / sizeof(char *));
 }
 
 /**
@@ -39,7 +39,8 @@ int shell_cd(char **argv)
 	{
 		fprintf(stderr, "Error: expected argument to cd\n");
 	}
-	else{
+	else
+	{
 		if (chdir(argv[1]) != 0)
 		{
 			perror("Error\n");
@@ -58,6 +59,7 @@ int shell_help(char **argv)
 {
 	(void)argv;
 	int i;
+
 	printf("This is a simple C shell built by Kenny and Bello\n");
 	printf("Please enter program names and arguments then press enter.\n");
 	printf("The following are built in commands: \n");
@@ -90,6 +92,7 @@ int shell_exit(char **argv)
 int execute(char **argv)
 {
 	int i;
+
 	if (argv[0] == NULL)
 	{
 		return (1);
@@ -98,8 +101,8 @@ int execute(char **argv)
 	{
 		if (strcmp(argv[0], builtin_str[i]) == 0)
 		{
-		return (*builtin_arrayfun[i])(argv);
+		return ((*builtin_arrayfun[i])(argv));
 		}
 	}
-	return shell_launch(argv);
+	return (shell_launch(argv));
 }
