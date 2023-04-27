@@ -14,6 +14,7 @@ int shell_launch(char **argv)
 	pid_t my_pid;
 	char *shell_command = NULL;
 	char *executed_command = NULL;
+
 	my_pid = fork();
 	if (my_pid < 0)
 	{
@@ -33,9 +34,9 @@ int shell_launch(char **argv)
 	}
 	if (my_pid > 0)
 	{
-		do{
+		do {
 			waitpid(my_pid, &status, WUNTRACED);
-		}while(!WIFEXITED(status) && WIFSIGNALED(status));
+		} while (!WIFEXITED(status) && WIFSIGNALED(status));
 	}
 	return (1);
 }
